@@ -1,0 +1,9 @@
+{
+  "method":"get",
+  "baseUrl":"http://localhost:9010/user",
+  "path":"/",
+  "payload":"",
+  "username" : "usr13",
+  "password" : "password"
+}
+

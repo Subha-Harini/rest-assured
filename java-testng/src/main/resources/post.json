@@ -1,0 +1,14 @@
+{
+  "method":"post",
+  "baseUrl":"http://localhost:9010/user",
+  "path":"/",
+  "payload":
+  {
+    "userId": "usr13",
+    "userName": "HariiK",
+    "firstName": "Harii",
+    "lastName": "K",
+    "password": "password",
+    "role" :"ADMIN"
+  }
+}
