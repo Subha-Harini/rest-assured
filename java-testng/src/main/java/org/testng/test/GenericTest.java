@@ -105,6 +105,7 @@ public class GenericTest {
 
     @Test(description = "Rest Assured with testng get method", dependsOnMethods = {"postTest"}, groups = { "apitestMethod"}, priority=0)
     public void getWithParamTest(){
+        System.out.println("GET with param Operation : " + path.get("getWithParam"));
         String getPath = path.get("getWithParam");
         String param = getPath.substring(getPath.indexOf("{")+1,getPath.indexOf("}"));
        Optional response = given().baseUri(baseUrl)
@@ -118,6 +119,22 @@ public class GenericTest {
                 .then()
                 .statusCode(200)
                 .body("message", equalTo("Success"))
+                .extract()
+                .as(Optional.class);
+        System.out.println(response.get());
+    }
+
+    @Test(description = "Rest Assured with testng get method", dependsOnMethods = {"postTest"}, groups = { "apitestMethod"}, priority=0)
+    public void getUnauthorizedTest(){
+        Optional  response = given().baseUri(baseUrl)
+                .headers(headers)
+                // When
+                .when()
+                .get(path.get("get"))
+                // Then
+                .then()
+                .statusCode(401)
+                .body("errorMessage", equalTo("Unauthorized"))
                 .extract()
                 .as(Optional.class);
         System.out.println(response.get());
