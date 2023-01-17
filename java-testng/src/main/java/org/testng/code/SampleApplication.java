@@ -53,7 +53,7 @@ public class SampleApplication {
                     e.printStackTrace();
                 }
             }
-            gt.postTest(baseUrl,path,inputHeaders,payload.toString());
+           // gt.postTest(baseUrl,path,inputHeaders,payload.toString());
         }
         if(pathItem.getGet() != null){
             System.out.println("GET Operation : " + path);
@@ -61,8 +61,9 @@ public class SampleApplication {
                 String passwordInput = (String) payload.get("userId") + ":" + (String) payload.get("password");
                 inputHeaders.put("Authorization", "Basic " + Base64.encodeBase64String(passwordInput.getBytes()));
                 try {
-                    gt.getTest(baseUrl, path, inputHeaders);
-                } catch (IOException | ParseException e) {
+                    //gt.getTest(baseUrl, path, inputHeaders);
+                } //catch (IOException | ParseException e) {
+                    catch (Exception e) {
                     e.printStackTrace();
                 }
             }
