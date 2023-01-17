@@ -150,21 +150,18 @@ public class GenericTest {
     }
 
     private void getJsonSchema(String schemaName) throws JSONException, IOException, ParseException {
-
+        String schema = schemaName.substring(schemaName.lastIndexOf("/")+1);
         JSONParser parser = new JSONParser();
-        if(schemaName.contentEquals("#/components/schemas/User")){
-            System.out.println(openAPI.getComponents().getSchemas().get("User").getProperties().keySet());
-            Schema s = openAPI.getComponents().getSchemas().get("User");
-            // using iterators
-            Iterator<Map.Entry<String, Schema>> itr = s.getProperties().entrySet().iterator();
-            while(itr.hasNext())
-            {
-                Map.Entry<String, Schema> entry = itr.next();
-                JSONObject data = (JSONObject) parser.parse(new FileReader("C:\\Users\\hkannan\\Desktop\\Harini\\Brodcom\\sym\\java-testng\\src\\main\\resources\\post1.json"));
-                payload.put(entry.getKey(), data.get(entry.getKey()));
-            }
+        System.out.println(openAPI.getComponents().getSchemas().get(schema).getProperties().keySet());
+        Schema s = openAPI.getComponents().getSchemas().get(schema);
+        // using iterators
+        Iterator<Map.Entry<String, Schema>> itr = s.getProperties().entrySet().iterator();
+        while(itr.hasNext())
+        {
+            Map.Entry<String, Schema> entry = itr.next();
+            JSONObject data = (JSONObject) parser.parse(new FileReader("C:\\Users\\hkannan\\Desktop\\Harini\\Brodcom\\sym\\java-testng\\src\\main\\resources\\post1.json"));
+            payload.put(entry.getKey(), data.get(entry.getKey()));
         }
-
     }
 
 
