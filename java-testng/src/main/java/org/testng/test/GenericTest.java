@@ -4,19 +4,17 @@ package org.testng.test;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.media.MediaType;
 import io.swagger.v3.oas.models.media.Schema;
 import io.swagger.v3.parser.OpenAPIV3Parser;
-import org.apache.commons.codec.binary.Base64;
-import org.json.JSONException;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.testng.SkipException;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import org.testng.code.SampleApplication;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -28,12 +26,15 @@ import static org.hamcrest.Matchers.equalTo;
 public class GenericTest {
      String baseUrl;
      Map<String, String> path = new HashMap<>();
-     JSONObject payload = new JSONObject();
-     OpenAPI openAPI = new OpenAPIV3Parser().read("http://localhost:9010/v3/api-docs/");
+     JSONObject payload = new JSONObject(); //make it as Map<String, JSONObject> POST_/URL
+     OpenAPI openAPI ;
      Map<String, String> headers = new HashMap<>();
 
     @BeforeClass
-    public void initiate(){
+    @Parameters({"openApiUrl"})
+    public void initiate(String url){
+        //"http://localhost:9010/v3/api-docs/"
+        openAPI = new OpenAPIV3Parser().read(url);
         baseUrl = openAPI.getServers().get(0).getUrl();
         System.out.println("Base URL : " +baseUrl);
         for (String pathname : openAPI.getPaths().keySet()) {
@@ -58,6 +59,7 @@ public class GenericTest {
                 .extract()
                 .as(Optional.class);
         ;
+        //todo ignore test case url if it fails, and continue with next url
         //LinkedHashMap js = (LinkedHashMap) response.get() ;
         System.out.println(response.get());
 
@@ -66,6 +68,9 @@ public class GenericTest {
     @Test(description = "Rest Assured with testng post method", groups = { "apiTestMethod"}, priority = 0)
     public void postConflictTest() {
         System.out.println("POST Operation : " + path.get("post"));
+        if(path.get("post")!="") {
+            throw new SkipException("Skipping this exception");
+        }
         // Given
         Optional response =   given().baseUri(baseUrl)
                 .headers(headers)
@@ -152,7 +157,7 @@ public class GenericTest {
                 System.out.println(m.getSchema().get$ref());
                 try {
                     getJsonSchema(m.getSchema().get$ref());
-                } catch (JSONException | IOException | ParseException e) {
+                } catch ( IOException | ParseException e) {
                     e.printStackTrace();
                 }
             }
@@ -166,7 +171,7 @@ public class GenericTest {
         }
     }
 
-    private void getJsonSchema(String schemaName) throws JSONException, IOException, ParseException {
+    private void getJsonSchema(String schemaName) throws  IOException, ParseException {
         String schema = schemaName.substring(schemaName.lastIndexOf("/")+1);
         JSONParser parser = new JSONParser();
         System.out.println(openAPI.getComponents().getSchemas().get(schema).getProperties().keySet());

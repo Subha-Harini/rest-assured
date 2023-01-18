@@ -1,7 +1,7 @@
 {
   "method":"post",
-  "baseUrl":"http://localhost:9010/user",
-  "path":"/",
+  "baseUrl":"http://localhost:9010/",
+  "path":"/user",
   "payload":
   {
     "userId": "usr13",
@@ -10,5 +10,6 @@
     "lastName": "K",
     "password": "password",
     "role" :"ADMIN"
-  }
+  },
+  "responseCodeExpected": "200"
 }

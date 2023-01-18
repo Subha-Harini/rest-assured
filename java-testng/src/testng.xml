@@ -2,10 +2,7 @@
 
 <suite name="Suite1" verbose="1" >
     <test name="org.testng"> <!--specify base package -->
-        <!--<parameter name="val1" value="Rajeev" />
-        <parameter name="val2" value="25" />
-        <parameter name="val3" value="8000" />-->
-
+        <parameter name="openApiUrl" value="http://localhost:9010/v3/api-docs/"/>
         <!--<groups>
             <define name = "all">
                 <include name = "apiTestMethod"/>
@@ -16,7 +13,7 @@
         </groups>-->
 
         <classes>
-            <!-- specify test class -->
+            <!-- specify one or more test class -->
             <!--<class name="org.testng.test.SampleTest"/> -->
             <class name="org.testng.test.GenericTest"/>
         </classes>
